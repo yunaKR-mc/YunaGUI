@@ -33,7 +33,7 @@ public class GUImanager implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                // MainGUI 인벤토리를 열어줌
+        
                 this.mainGUI.openInventory(player);
                 return true;
             } else {
