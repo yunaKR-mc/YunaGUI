@@ -68,7 +68,7 @@ public class SpawnManager {
     }
 
 
-    // SpawnManager 클래스 내부
+
     public Plugin getPlugin() {
         return this.plugin;
     }
