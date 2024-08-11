@@ -55,10 +55,10 @@ public class SpawnManager {
         double x = spawnConfig.getDouble("x");
         double y = spawnConfig.getDouble("y");
         double z = spawnConfig.getDouble("z");
-        return new Location(Bukkit.getWorld("world"), x, y, z); // "world"는 월드 이름으로, 실제 월드 이름으로 변경해야 합니다.
+        return new Location(Bukkit.getWorld("world"), x, y, z);
     }
 
-    // YamlConfiguration을 파일에 저장하는 보조 메서드
+  
     private void saveConfig(YamlConfiguration config, File configFile) {
         try {
             config.save(configFile);
