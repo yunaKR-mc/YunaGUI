@@ -29,19 +29,19 @@ public class SpawnManager {
         spawnConfig = YamlConfiguration.loadConfiguration(spawnFile);
     }
 
-    // 스폰 위치를 spawn.yml 파일에서 불러오는 메서드
+   
     public Location loadSpawnLocation() {
         File configFile = new File(plugin.getDataFolder(), "spawn.yml");
         YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
         double x = config.getDouble("WorldX");
         double y = config.getDouble("WorldY");
         double z = config.getDouble("WorldZ");
-        World world = plugin.getServer().getWorlds().get(0); // 첫 번째 월드를 가져옴, 필요에 따라 변경 가능
+        World world = plugin.getServer().getWorlds().get(0);
 
         return new Location(world, x, y, z);
     }
 
-    // 스폰 위치를 spawn.yml 파일에 저장하는 메서드
+  
     public void saveSpawnLocation(Location location) {
         File configFile = new File(plugin.getDataFolder(), "spawn.yml");
         YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
