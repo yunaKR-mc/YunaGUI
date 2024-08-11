@@ -24,14 +24,14 @@ public class JoinForceTel {
         File joinForceFile = new File(plugin.getDataFolder(), "JoinForce.yml");
         if (!joinForceFile.exists()) {
             try {
-                plugin.getDataFolder().mkdirs(); // 플러그인 데이터 폴더가 없으면 생성
-                joinForceFile.createNewFile(); // JoinForce.yml 파일 생성
+                plugin.getDataFolder().mkdirs(); 
+                joinForceFile.createNewFile(); 
                 FileConfiguration joinForceConfig = YamlConfiguration.loadConfiguration(joinForceFile);
-                joinForceConfig.createSection("ForceTeleport"); // ForceTeleport 섹션 생성
-                joinForceConfig.set("ForceTeleport.X", 0); // 기본값 설정
+                joinForceConfig.createSection("ForceTeleport");
+                joinForceConfig.set("ForceTeleport.X", 0); 
                 joinForceConfig.set("ForceTeleport.Y", 0);
                 joinForceConfig.set("ForceTeleport.Z", 0);
-                joinForceConfig.save(joinForceFile); // 파일에 저장
+                joinForceConfig.save(joinForceFile); 
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -42,7 +42,7 @@ public class JoinForceTel {
         File joinForceFile = new File(plugin.getDataFolder(), "JoinForce.yml");
         if (!joinForceFile.exists()) {
             plugin.getLogger().info("JoinForce.yml 파일이 존재하지 않습니다. 기본 스폰 위치로 이동합니다.");
-            return; // 파일이 없으면 기본 스폰으로 이동
+            return; 
         }
 
         FileConfiguration joinForceConfig = YamlConfiguration.loadConfiguration(joinForceFile);
