@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,18 +31,20 @@ public class MainGUI implements Listener {
 
     private MainGUI mainGUI;
     private GUImanager guImanager;
+    private GameSettingsGUI gamegui;
     private DungeonGUI dungeonGUI;
     private BattleGUI battleGUI;
     private DecorationGUI decorationGUI;
     private Inventory i;
 
 
-    public MainGUI(Main plugin,TutorialGUI tutorialGUI) {
+    public MainGUI(Main plugin,TutorialGUI tutorialGUI,GameSettingsGUI gamegui) {
 
         this.plugin = plugin;
         this.mainGUI = mainGUI;
         this.tutorial = tutorialGUI;
         this.i = i;
+        this.gamegui = gamegui;
     }
 
 
@@ -114,6 +117,7 @@ public class MainGUI implements Listener {
             if (clickedItem != null && clickedItem.hasItemMeta()) {
                 ItemMeta TuMeta = clickedItem.getItemMeta();
                 ItemMeta BackMeta = clickedItem.getItemMeta();
+                ItemMeta GameSettings2 = clickedItem.getItemMeta();
                 if (TuMeta.getItemName().equals("튜토리얼")) {
                     tutorial.openInventory(player);
                     PlayTeleportSound(player);
@@ -121,6 +125,12 @@ public class MainGUI implements Listener {
                 if (BackMeta.getItemName().equals("돌아가기")) {
                     CloseInventory(player);
                 }
+                if (GameSettings2.getItemName().equals("게임 설정")) {
+                    gamegui.openInventory(player);
+
+                }
+
+
 
             }
         }

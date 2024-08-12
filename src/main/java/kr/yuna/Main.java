@@ -8,6 +8,7 @@ import kr.yuna.commands.*;
 import kr.yuna.event.LobbyListener;
 import kr.yuna.event.NoBlockExplodeListener;
 import kr.yuna.event.NoExplodeListener;
+import kr.yuna.guis.users.GameSettingsGUI;
 import kr.yuna.managers.GUImanager;
 import kr.yuna.guis.users.MainGUI;
 import kr.yuna.guis.users.Turtorials.BattleGUI;
@@ -31,6 +32,7 @@ public final class Main extends JavaPlugin {
     private DecorationGUI decorationGUI;
     private DungeonGUI dungeonGUI;
     private PartySystem partySystem;
+    private GameSettingsGUI gameSettingsGUI;
 
 
 
@@ -49,27 +51,29 @@ public final class Main extends JavaPlugin {
         // 인스턴스 생성
         SpawnManager spawnManager = new SpawnManager(this);
         day day = new day(this,w);
-        MainGUI mainGUI = new MainGUI(this,tutorialGUI);
-        TutorialGUI tutorialgui = new TutorialGUI(this,tutorialGUI,battleGUI,decorationGUI,dungeonGUI);
+        MainGUI mainGUI = new MainGUI(this,tutorialGUI,gameSettingsGUI);
+        TutorialGUI tutorialgui = new TutorialGUI(this,tutorialGUI,battleGUI,decorationGUI,dungeonGUI,gameSettingsGUI);
         BattleGUI battleGUI1 = new BattleGUI(this,tutorialGUI);
         DecorationGUI decorationGUI1 = new DecorationGUI(this,decorationGUI);
         DungeonGUI dungeonGUI1 = new DungeonGUI(this,dungeonGUI);
-        GUImanager guiManager = new GUImanager(this,battleGUI,dungeonGUI,decorationGUI,tutorialGUI);
+        GUImanager guiManager = new GUImanager(this,battleGUI,dungeonGUI,decorationGUI,tutorialGUI,gameSettingsGUI);
         partySystem = new PartySystem();
         JoinForceTel joinForceTel = new JoinForceTel(this);
 
 
         // 객체
-        tutorialGUI = new TutorialGUI(this,tutorialGUI,battleGUI,decorationGUI,dungeonGUI); // TutorialGUI 객체 생성
-        mainGUI = new MainGUI(this, tutorialGUI); // MainGUI 객체 생성 시 TutorialGUI 객체 전달
+        tutorialGUI = new TutorialGUI(this,tutorialGUI,battleGUI,decorationGUI,dungeonGUI,gameSettingsGUI); // TutorialGUI 객체 생성
+        mainGUI = new MainGUI(this, tutorialGUI,gameSettingsGUI); // MainGUI 객체 생성 시 TutorialGUI 객체 전달
+        gameSettingsGUI = new GameSettingsGUI(this,gameSettingsGUI);
 
 
         //이벤트 처리
 
         getServer().getPluginManager().registerEvents(new NoExplodeListener(), (this));
         getServer().getPluginManager().registerEvents(new NoBlockExplodeListener(), (this));
-        getServer().getPluginManager().registerEvents(new MainGUI(this,tutorialGUI),this);
-        getServer().getPluginManager().registerEvents(new TutorialGUI(this,tutorialGUI,battleGUI,decorationGUI,dungeonGUI),this);
+        getServer().getPluginManager().registerEvents(new MainGUI(this,tutorialGUI,gameSettingsGUI),this);
+        getServer().getPluginManager().registerEvents(new TutorialGUI(this,tutorialGUI,battleGUI,decorationGUI,dungeonGUI,gameSettingsGUI),this);
+        getServer().getPluginManager().registerEvents(new GameSettingsGUI(this,gameSettingsGUI),this);
         getServer().getPluginManager().registerEvents(new BattleGUI(this,tutorialGUI),this);
         getServer().getPluginManager().registerEvents(new PartyListener(partySystem), this);
         getServer().getPluginManager().registerEvents(new LobbyListener(this),this);

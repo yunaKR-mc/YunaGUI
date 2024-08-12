@@ -24,16 +24,19 @@ public class TutorialGUI implements Listener {
     private final BattleGUI battleGUI;
     private final DecorationGUI decorationGUI;
     private final MainGUI mainGUI;
+    private GameSettingsGUI gameSettingsGUI;
 
 
 
 
-    public TutorialGUI(Main plugin, TutorialGUI tutorialGUI, BattleGUI battleGUI, DecorationGUI decorationGUI, DungeonGUI dungeonGUI) {
+    public TutorialGUI(Main plugin, TutorialGUI tutorialGUI, BattleGUI battleGUI, DecorationGUI decorationGUI, DungeonGUI dungeonGUI,GameSettingsGUI gameSettingsGUI) {
         this.p = p;
         this.decorationGUI = new DecorationGUI(plugin,decorationGUI);
         this.battleGUI = new BattleGUI(plugin,tutorialGUI);
         this.dungeonGUI = new DungeonGUI(plugin,dungeonGUI);
-        this.mainGUI = new MainGUI(plugin, tutorialGUI);
+        this.mainGUI = new MainGUI(plugin, tutorialGUI,gameSettingsGUI);
+        this.gameSettingsGUI = gameSettingsGUI;
+        this.gameSettingsGUI = new GameSettingsGUI(plugin,gameSettingsGUI);
     }
 
 

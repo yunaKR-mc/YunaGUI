@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.File;
 
-public class JoinForceTel {
+public  class JoinForceTel {
 
     private Main plugin;
 

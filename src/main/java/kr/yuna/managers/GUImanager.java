@@ -1,6 +1,7 @@
 package kr.yuna.managers;
 
 import kr.yuna.Main;
+import kr.yuna.guis.users.GameSettingsGUI;
 import kr.yuna.guis.users.MainGUI;
 import kr.yuna.guis.users.Turtorials.BattleGUI;
 import kr.yuna.guis.users.Turtorials.DecorationGUI;
@@ -19,13 +20,14 @@ public class GUImanager implements CommandExecutor {
     private DecorationGUI decorationGUI;
     private DungeonGUI dungeonGUI;
     private final TutorialGUI tutorialGUI;
+    private GameSettingsGUI gameSettingsGUI;
 
-    public GUImanager(Main plugin,BattleGUI battleGUI,DungeonGUI dungeonGUI,DecorationGUI decorationGUI,TutorialGUI tutorialGUI) {
-      this.mainGUI = new MainGUI(plugin,tutorialGUI);
+    public GUImanager(Main plugin,BattleGUI battleGUI,DungeonGUI dungeonGUI,DecorationGUI decorationGUI,TutorialGUI tutorialGUI,GameSettingsGUI gameSettingsGUI) {
+      this.mainGUI = new MainGUI(plugin,tutorialGUI,gameSettingsGUI);
       this.battleGUI = new BattleGUI(plugin,tutorialGUI);
       this.dungeonGUI = new DungeonGUI(plugin,dungeonGUI);
       this.decorationGUI = new DecorationGUI(plugin,decorationGUI);
-      this.tutorialGUI = new TutorialGUI(plugin, tutorialGUI, battleGUI, decorationGUI, dungeonGUI);
+      this.tutorialGUI = new TutorialGUI(plugin, tutorialGUI, battleGUI, decorationGUI, dungeonGUI,gameSettingsGUI);
 
     }
 
