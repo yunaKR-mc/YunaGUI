@@ -22,25 +22,32 @@ public class GUImanager implements CommandExecutor {
     private final TutorialGUI tutorialGUI;
     private GameSettingsGUI gameSettingsGUI;
 
-    public GUImanager(Main plugin,BattleGUI battleGUI,DungeonGUI dungeonGUI,DecorationGUI decorationGUI,TutorialGUI tutorialGUI,GameSettingsGUI gameSettingsGUI) {
-      this.mainGUI = new MainGUI(plugin,tutorialGUI,gameSettingsGUI);
-      this.battleGUI = new BattleGUI(plugin,tutorialGUI);
-      this.dungeonGUI = new DungeonGUI(plugin,dungeonGUI);
-      this.decorationGUI = new DecorationGUI(plugin,decorationGUI);
-      this.tutorialGUI = new TutorialGUI(plugin, tutorialGUI, battleGUI, decorationGUI, dungeonGUI,gameSettingsGUI);
+    public GUImanager(Main plugin, BattleGUI battleGUI, DungeonGUI dungeonGUI, DecorationGUI decorationGUI, TutorialGUI tutorialGUI, GameSettingsGUI gameSettingsGUI) {
+        this.mainGUI = new MainGUI(plugin, tutorialGUI, gameSettingsGUI);
+        this.battleGUI = new BattleGUI(plugin, tutorialGUI);
+        this.dungeonGUI = new DungeonGUI(plugin, dungeonGUI);
+        this.decorationGUI = new DecorationGUI(plugin, decorationGUI);
+        this.tutorialGUI = new TutorialGUI(plugin, tutorialGUI, battleGUI, decorationGUI, dungeonGUI, gameSettingsGUI);
 
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-        
-                this.mainGUI.openInventory(player);
-                return true;
-            } else {
-                sender.sendMessage("이 명령어는 플레이어만 사용할 수 있습니다.");
-                return false;
+        CommandExecutor commands = new CommandExecutor() {
+            @Override
+            public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+                if (sender instanceof Player) {
+                    Player player = (Player) sender;
+                    // MainGUI 인벤토리를 열어줌
+                    mainGUI.openInventory(player);
+                    return true;
+                } else {
+                    sender.sendMessage("이 명령어는 플레이어만 사용할 수 있습니다.");
+                    return false;
+                }
             }
-        }
+        };
+        return false;
     }
+}

@@ -16,7 +16,12 @@ public class PartyListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        Player playerUUID = event.getPlayer().getPlayer();
-        partySystem.leaderLeft(playerUUID);
+        Listener OnQuit = new Listener() {
+            @EventHandler
+            public void onPlayerQuit(PlayerQuitEvent event) {
+                Player playerUUID = event.getPlayer().getPlayer();
+                partySystem.leaderLeft(playerUUID);
+            }
+        };
     }
 }

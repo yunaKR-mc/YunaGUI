@@ -38,7 +38,7 @@ public class MainGUI implements Listener {
     private Inventory i;
 
 
-    public MainGUI(Main plugin,TutorialGUI tutorialGUI,GameSettingsGUI gamegui) {
+    public MainGUI(Main plugin, TutorialGUI tutorialGUI, GameSettingsGUI gamegui) {
 
         this.plugin = plugin;
         this.mainGUI = mainGUI;
@@ -88,7 +88,7 @@ public class MainGUI implements Listener {
         Maininv.setItem(10, FunColl);
         Maininv.setItem(13, Tutorial);
         Maininv.setItem(16, GameSettings);
-        Maininv.setItem(22,BackIn);
+        Maininv.setItem(22, BackIn);
 
         for (int i = 0; i < Maininv.getSize(); i++) {
             if (i != 10 && i != 13 && i != 16 && i != 22) {
@@ -101,55 +101,61 @@ public class MainGUI implements Listener {
 
     public void openInventory(Player player) {
         Inventory inv = createInventory();
-        OpeninventorySound(player);
         player.openInventory(inv);
     }
 
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (e.getView().getTitle().equals("[능력자 서버]")) {
-            e.setCancelled(true); // 아이템을 가져가지 못하도록 이벤트 취소
+        Listener InvenClick = new Listener() {
+
+            @EventHandler
+            public void onInventoryClick(InventoryClickEvent e) {
+                if (e.getView().getTitle().equals("[능력자 서버]")) {
+                    e.setCancelled(true); // 아이템을 가져가지 못하도록 이벤트 취소
 
 
-            Player player = (Player) e.getWhoClicked();
-            ItemStack clickedItem = e.getCurrentItem();
-            if (clickedItem != null && clickedItem.hasItemMeta()) {
-                ItemMeta TuMeta = clickedItem.getItemMeta();
-                ItemMeta BackMeta = clickedItem.getItemMeta();
-                ItemMeta GameSettings2 = clickedItem.getItemMeta();
-                if (TuMeta.getItemName().equals("튜토리얼")) {
-                    tutorial.openInventory(player);
-                    PlayTeleportSound(player);
+                    Player player = (Player) e.getWhoClicked();
+                    ItemStack clickedItem = e.getCurrentItem();
+                    if (clickedItem != null && clickedItem.hasItemMeta()) {
+                        ItemMeta TuMeta = clickedItem.getItemMeta();
+                        ItemMeta BackMeta = clickedItem.getItemMeta();
+                        ItemMeta GameSettings2 = clickedItem.getItemMeta();
+                        if (TuMeta.getItemName().equals("튜토리얼")) {
+                            tutorial.openInventory(player);
+
+                            PlayTeleportSound(player);
+                        }
+                        if (BackMeta.getItemName().equals("돌아가기")) {
+                            CloseInventory(player);
+                        }
+                        if (GameSettings2.getItemName().equals("게임 설정")) {
+                            gamegui.openInventory(player);
+
+                        }
+
+
+                    }
                 }
-                if (BackMeta.getItemName().equals("돌아가기")) {
-                    CloseInventory(player);
-                }
-                if (GameSettings2.getItemName().equals("게임 설정")) {
-                    gamegui.openInventory(player);
+            }
 
-                }
+            public void PlayTeleportSound(Player player) {
+                Location location = player.getLocation();
+                player.playSound(location, Sound.BLOCK_NOTE_BLOCK_BELL, 1.0f, 1.0f);
+            }
 
+
+            public void OpeninventorySound(Player player) {
+                Location location = player.getLocation();
+                player.playSound(location, Sound.BLOCK_NOTE_BLOCK_HARP, 2.0f, 1.0f);
 
 
             }
-        }
-    }
-    public void PlayTeleportSound(Player player) {
-        Location location = player.getLocation();
-        player.playSound(location, Sound.BLOCK_NOTE_BLOCK_BELL, 1.0f, 1.0f);
-    }
 
 
-    public  void OpeninventorySound(Player player) {
-        Location location = player.getLocation();
-        player.playSound(location,Sound.BLOCK_NOTE_BLOCK_HARP,2.0f,1.0f);
-
-
-    }
-
-
-    public void CloseInventory(Player player) {
-        player.closeInventory();
+            public void CloseInventory(Player player) {
+                player.closeInventory();
+            }
+        };
     }
 }

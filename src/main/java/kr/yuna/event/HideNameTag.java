@@ -13,18 +13,24 @@ public class HideNameTag implements Listener {
     public HideNameTag(Main plugin) {
         this.plugin = plugin;
     }
+
     public boolean HideNameTag = true;
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        // 플레이어의 이름표를 숨김
-        for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
+        Listener PlayerHide = new Listener() {
+            @EventHandler
+            public void onPlayerJoin(PlayerJoinEvent event) {
+                Player player = event.getPlayer();
+                // 플레이어의 이름표를 숨김
+                for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
 
-            if (HideNameTag)
-                player.hidePlayer(plugin,player);
-            otherPlayer.hidePlayer(plugin, player);
-            player.hidePlayer(plugin, otherPlayer);
-        }
+                    if (HideNameTag)
+                        player.hidePlayer(plugin, player);
+                    otherPlayer.hidePlayer(plugin, player);
+                    player.hidePlayer(plugin, otherPlayer);
+                }
+            }
+        };
     }
 }

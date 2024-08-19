@@ -39,4 +39,11 @@ public class spawn implements CommandExecutor {
             return false;
         }
     }
+    public void SpawnTeleportPlayer(Player player) {
+        Player p = player;
+        spawnManager.loadSpawnLocation();
+        Location location = setSpawn.getSaveSpawnLocation(this);
+        p.teleport(new Location(location.getWorld(), spawnManager.loadSpawnLocation().getX(), spawnManager.loadSpawnLocation().getY(), spawnManager.loadSpawnLocation().getZ()));
+
+    }
 }

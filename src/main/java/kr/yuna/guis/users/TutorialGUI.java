@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.entity.Player;
 import org.bukkit.Sound;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class TutorialGUI implements Listener {
     private Player p;
@@ -25,25 +26,21 @@ public class TutorialGUI implements Listener {
     private final DecorationGUI decorationGUI;
     private final MainGUI mainGUI;
     private GameSettingsGUI gameSettingsGUI;
+    private JavaPlugin plugin;
 
 
-
-
-    public TutorialGUI(Main plugin, TutorialGUI tutorialGUI, BattleGUI battleGUI, DecorationGUI decorationGUI, DungeonGUI dungeonGUI,GameSettingsGUI gameSettingsGUI) {
+    public TutorialGUI(Main plugin, TutorialGUI tutorialGUI, BattleGUI battleGUI, DecorationGUI decorationGUI, DungeonGUI dungeonGUI, GameSettingsGUI gameSettingsGUI) {
         this.p = p;
-        this.decorationGUI = new DecorationGUI(plugin,decorationGUI);
-        this.battleGUI = new BattleGUI(plugin,tutorialGUI);
-        this.dungeonGUI = new DungeonGUI(plugin,dungeonGUI);
-        this.mainGUI = new MainGUI(plugin, tutorialGUI,gameSettingsGUI);
+        this.decorationGUI = new DecorationGUI(plugin, decorationGUI);
+        this.battleGUI = new BattleGUI(plugin, this);
+        this.dungeonGUI = new DungeonGUI(plugin, dungeonGUI);
+        this.mainGUI = new MainGUI(plugin, tutorialGUI, gameSettingsGUI);
         this.gameSettingsGUI = gameSettingsGUI;
-        this.gameSettingsGUI = new GameSettingsGUI(plugin,gameSettingsGUI);
+        this.gameSettingsGUI = new GameSettingsGUI(plugin, gameSettingsGUI);
     }
 
 
-
     public Inventory createInventory() {
-
-
 
 
         Inventory Tuinv = Bukkit.createInventory(null, 27, ("[튜토리얼]"));
@@ -62,8 +59,6 @@ public class TutorialGUI implements Listener {
         ItemMeta Itemturtorial = TurtorialTel.getItemMeta();
         Itemturtorial.setItemName("던전 튜토리얼");
         TurtorialTel.setItemMeta(Itemturtorial);
-
-
 
 
         // 전투 튜토리얼 아이템
@@ -86,12 +81,10 @@ public class TutorialGUI implements Listener {
 
 
         // 아이템 위치 설정
-        Tuinv.setItem(10,TurtorialTel);
-        Tuinv.setItem(13,BattleT);
-        Tuinv.setItem(16,decoration);
-        Tuinv.setItem(22,BackIn);
-
-
+        Tuinv.setItem(10, TurtorialTel);
+        Tuinv.setItem(13, BattleT);
+        Tuinv.setItem(16, decoration);
+        Tuinv.setItem(22, BackIn);
 
 
         for (int i = 0; i < Tuinv.getSize(); i++) {
@@ -102,49 +95,60 @@ public class TutorialGUI implements Listener {
 
         return Tuinv;
 
+
     }
+
+    public void openInventory(Player player) {
+        Inventory inv = createInventory();
+        player.openInventory(inv);
+    }
+
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (e.getView().getTitle().equals("[튜토리얼]")) {
-            e.setCancelled(true); // 아이템을 가져가지 못하도록 이벤트 취소
+        Listener InvenClick = new Listener() {
+            @EventHandler
+            public void onInventoryClick(InventoryClickEvent e) {
 
-            Player player = (Player) e.getWhoClicked();
-            ItemStack clickedItem = e.getCurrentItem();
-            if (clickedItem != null && clickedItem.hasItemMeta()) {
-                ItemMeta Itemturtorial = clickedItem.getItemMeta();
-                ItemMeta BattleTmeta = clickedItem.getItemMeta();
-                ItemMeta decorationMeta = clickedItem.getItemMeta();
-                ItemMeta BackMeta = clickedItem.getItemMeta();
-                if (Itemturtorial.getItemName().equals("던전 튜토리얼")) {
-                    PlayTeleportSound(player);
-                    dungeonGUI.openInventory(player);
-                    
-                    
-                }
-                if (BattleTmeta.getItemName().equals("전투 튜토리얼")) {
-                    PlayTeleportSound(player);
-                    battleGUI.openInventory(player);
-                }
-                if (decorationMeta.getItemName().equals("치장품 튜토리얼")) {
-                    PlayTeleportSound(player);
-                   decorationGUI.openInventory(player);
-                }
-                if (BackMeta.getItemName().equals("돌아가기")) {
-                    mainGUI.openInventory(player);
 
+                if (e.getView().getTitle().equals("[튜토리얼]")) {
+                    e.setCancelled(true); // 아이템을 가져가지 못하도록 이벤트 취소
+
+                    Player player = (Player) e.getWhoClicked();
+                    ItemStack clickedItem = e.getCurrentItem();
+                    if (clickedItem != null && clickedItem.hasItemMeta()) {
+                        ItemMeta Itemturtorial = clickedItem.getItemMeta();
+                        ItemMeta BattleTmeta = clickedItem.getItemMeta();
+                        ItemMeta decorationMeta = clickedItem.getItemMeta();
+                        ItemMeta BackMeta = clickedItem.getItemMeta();
+                        if (Itemturtorial.getItemName().equals("던전 튜토리얼")) {
+                            PlayTeleportSound(player);
+                            dungeonGUI.openInventory(player);
+
+
+                        }
+                        if (BattleTmeta.getItemName().equals("전투 튜토리얼")) {
+                            PlayTeleportSound(player);
+                            battleGUI.openInventory(player);
+
+                        }
+                        if (decorationMeta.getItemName().equals("치장품 튜토리얼")) {
+                            PlayTeleportSound(player);
+                            decorationGUI.openInventory(player);
+                        }
+                        if (BackMeta.getItemName().equals("돌아가기")) {
+                            mainGUI.openInventory(player);
+
+                        }
+                    }
                 }
             }
-        }
-    }
 
 
-
-    public void PlayTeleportSound(Player player) {
-        Location location = player.getLocation();
-        player.playSound(location, Sound.BLOCK_NOTE_BLOCK_BELL, 1.0f, 1.0f);
-    }
-
+            public void PlayTeleportSound(Player player) {
+                Location location = player.getLocation();
+                player.playSound(location, Sound.BLOCK_NOTE_BLOCK_BELL, 1.0f, 1.0f);
+            }
 
 
 //    public void DungeonTeleportPlayer(Player player) {
@@ -178,11 +182,11 @@ public class TutorialGUI implements Listener {
 //        PlayTeleportSound(player);
 //    }
 
-    public void openInventory(Player player) {
-        Inventory inv = createInventory();
-        player.openInventory(inv);
+
+        };
     }
 }
+
 
 
 

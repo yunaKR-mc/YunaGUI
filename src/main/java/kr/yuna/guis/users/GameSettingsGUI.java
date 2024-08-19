@@ -21,7 +21,7 @@ public class GameSettingsGUI implements Listener {
     private final GameSettingsGUI gameSettingsGUI;
 
 
-    public GameSettingsGUI(Main plugin,GameSettingsGUI gameSettingsGUI) {
+    public GameSettingsGUI(Main plugin, GameSettingsGUI gameSettingsGUI) {
         this.plugin = plugin;
         this.gameSettingsGUI = gameSettingsGUI;
     }
@@ -62,8 +62,7 @@ public class GameSettingsGUI implements Listener {
     }
 
     public Inventory createInventory() {
-        Inventory GameS = Bukkit.createInventory(null,54, "[게임설정]");
-
+        Inventory GameS = Bukkit.createInventory(null, 54, "[게임설정]");
 
 
         ItemStack NV = new ItemStack(Material.ENDER_EYE);
@@ -71,12 +70,12 @@ public class GameSettingsGUI implements Listener {
         NVmeta.setItemName("야간투시 켜기/끄기");
         NV.setItemMeta(NVmeta);
 
-        GameS.setItem(10,NV);
-
+        GameS.setItem(10, NV);
 
 
         return GameS;
     }
+
     public void openInventory(Player player) {
         Inventory inv = createInventory();
         player.openInventory(inv);
@@ -88,24 +87,32 @@ public class GameSettingsGUI implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (e.getView().getTitle().equals("[게임설정]")) {
-            e.setCancelled(true); // 아이템을 가져가지 못하도록 이벤트 취소
-            Player player = (Player) e.getWhoClicked();
-            ItemStack clickedItem = e.getCurrentItem();
-            if (clickedItem != null && clickedItem.hasItemMeta()) {
-                ItemMeta NVmeta = clickedItem.getItemMeta();
-                if (NVmeta.getItemName().equals("야간투시 켜기/끄기")) {
-                    if (!isNVon()) {
-                        player.addPotionEffect(PotionEffectType.NIGHT_VISION.createEffect(999999, 255));
-                        CloseInventory(player);
-                        setNVon(true);
-                    } else {
-                        player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                        CloseInventory(player);
-                        setNVon(false);
+
+        Listener InvClick = new Listener() {
+            @EventHandler
+            public void onInvClick(InventoryClickEvent e) {
+
+
+                if (e.getView().getTitle().equals("[게임설정]")) {
+                    e.setCancelled(true); // 아이템을 가져가지 못하도록 이벤트 취소
+                    Player player = (Player) e.getWhoClicked();
+                    ItemStack clickedItem = e.getCurrentItem();
+                    if (clickedItem != null && clickedItem.hasItemMeta()) {
+                        ItemMeta NVmeta = clickedItem.getItemMeta();
+                        if (NVmeta.getItemName().equals("야간투시 켜기/끄기")) {
+                            if (!isNVon()) {
+                                player.addPotionEffect(PotionEffectType.NIGHT_VISION.createEffect(999999, 255));
+                                CloseInventory(player);
+                                setNVon(true);
+                            } else {
+                                player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                                CloseInventory(player);
+                                setNVon(false);
+                            }
+                        }
                     }
                 }
             }
-        }
+        };
     }
 }

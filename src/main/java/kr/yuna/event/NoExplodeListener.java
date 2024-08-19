@@ -6,12 +6,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 public class NoExplodeListener implements Listener {
-     @EventHandler
+    @EventHandler
     public void onExplosion(EntityExplodeEvent event) {
-        if (event.getEntityType() == EntityType.TNT|| event.getEntityType() == EntityType.TNT_MINECART || event.getEntityType() == EntityType.END_CRYSTAL || event.getEntityType() == EntityType.WITHER || event.getEntityType() == EntityType.CREEPER || event.getEntityType() == EntityType.FIREBALL) {
-            event.setCancelled(true);
-            event.blockList().clear();
-        }
+        Listener OnEntityExplode = new Listener() {
+            @EventHandler
+            public void onExplosionEntity(EntityExplodeEvent event) {
+                if (event.getEntityType() == EntityType.TNT || event.getEntityType() == EntityType.TNT_MINECART || event.getEntityType() == EntityType.END_CRYSTAL || event.getEntityType() == EntityType.WITHER || event.getEntityType() == EntityType.CREEPER || event.getEntityType() == EntityType.FIREBALL) {
+                    event.setCancelled(true);
+                    event.blockList().clear();
+                }
+            }
+        };
     }
 }
 
