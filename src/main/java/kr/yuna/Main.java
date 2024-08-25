@@ -46,8 +46,6 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        JavaPlugin Enable = new JavaPlugin() {
-            public void OnEnable() {
                 getLogger().info("YP GUI Enabled.");
 
                 // 인스턴스 생성
@@ -102,13 +100,11 @@ public final class Main extends JavaPlugin {
 
             @Override
             public void onDisable() {
-                JavaPlugin Disable = new JavaPlugin() {
-                    public void OnDisable() {
+            
                         getLogger().info("YP GUI Disabled.");
 
                     }
                 };
             }
-        };
-    }
-}
+        }
+
